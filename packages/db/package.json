@@ -1,0 +1,23 @@
+{
+  "name": "@secretary/db",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "db:generate": "prisma generate && tsc -p tsconfig.json",
+    "db:push": "prisma db push --skip-generate",
+    "db:pull": "prisma db pull",
+    "db:migrate": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.18.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^24.9.1",
+    "prisma": "^6.18.0",
+    "ts-node": "^10.7.0",
+    "typescript": "^5.1.3"
+  }
+}
