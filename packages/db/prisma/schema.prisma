@@ -19,27 +19,20 @@ datasource db {
 
 
 model User {
-  id            String      @id @default(uuid())
-  phoneNumber   String      @unique
-  fullName      String?
-  email         String?     @unique
-  plan          PlanType    @default(FREE)
-  role          RoleType    @default(PERSONAL)
-  organization  String?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-
-  notes         Note[]
-  expenses      Expense[]
-  reminders     Reminder[]
-  payments      Payment[]
-  organizations Organization[]
-  chatLogs      ChatLog[]
+  id                  String            @id @default(uuid())
+  phoneNumber         String            @unique
+  name                String?
+  conversationState   ConversationState @default(IDLE)
+  googleAccessToken   String?
+  googleRefreshToken  String?
+  googleTokenExpiry   DateTime?
+  agentContext        Json?
+  createdAt           DateTime          @default(now())
 }
 
 model Note {
   id         String   @id @default(uuid())
-  user       User     @relation(fields: [userId], references: [id])
+ 
   userId     String
   content    String
   summary    String?
@@ -49,7 +42,7 @@ model Note {
 
 model Expense {
   id          String   @id @default(uuid())
-  user        User     @relation(fields: [userId], references: [id])
+ 
   userId      String
   amount      Float
   category    String
@@ -60,7 +53,7 @@ model Expense {
 
 model Reminder {
   id          String   @id @default(uuid())
-  user        User     @relation(fields: [userId], references: [id])
+ 
   userId      String
   message     String
   remindAt    DateTime
@@ -71,7 +64,7 @@ model Reminder {
 model Organization {
   id                 String      @id @default(uuid())
   name               String
-  owner              User        @relation(fields: [ownerId], references: [id])
+ 
   ownerId            String
   subscriptionPlan   PlanType    @default(FREE)
   createdAt          DateTime    @default(now())
@@ -93,7 +86,7 @@ model Employee {
 
 model Payment {
   id              String   @id @default(uuid())
-  user            User     @relation(fields: [userId], references: [id])
+  
   userId          String
   amount          Float
   currency        String   @default("KES")
@@ -105,7 +98,7 @@ model Payment {
 
 model ChatLog {
   id         String   @id @default(uuid())
-  user       User     @relation(fields: [userId], references: [id])
+ 
   userId     String
   message    String
   response   String?
@@ -123,4 +116,11 @@ enum RoleType {
   PERSONAL
   BUSINESS
   HR_ADMIN
+}
+
+enum ConversationState {
+  IDLE
+  WAITING_FOR_INPUT
+  PROCESSING
+  COMPLETED
 }

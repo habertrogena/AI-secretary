@@ -7,7 +7,9 @@
     "strict": true,
     "baseUrl": ".",
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["node"],
+  
   },
   "include": ["src", "prisma"],
   "exclude": ["node_modules", "dist"]
